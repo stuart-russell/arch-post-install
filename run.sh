@@ -1,26 +1,37 @@
 #!/bin/sh
 
+
+source utils/colour.sh
 source utils/spinner.sh
 
-echo "Starting post-installation steps..."
+NEWLINE="\n"
 
-echo "Installing basic dependencies..."
+echo -e "${BLUE}Starting post-installation steps...${NC}${NEWLINE}"
+
+echo -e "${YELLOW}Installing basic dependencies...${NC}${NEWLINE}"
 run_script_with_spinner "steps/0-install-deps.sh"
-echo "Enabling sudo..."
+echo -e "${YELLOW}Enabling sudo...${NC}${NEWLINE}"
 run_script_with_spinner "steps/1-enable-sudo.sh"
-echo "Enabling multilib..."
+echo -e "${YELLOW}Enabling multilib...${NC}${NEWLINE}"
 run_script_with_spinner "steps/2-enable-multilib.sh"
-echo "Running system updates..."
+echo -e "${YELLOW}Running system updates...${NC}${NEWLINE}"
 run_script_with_spinner "steps/3-update-system.sh"
-echo "Adding users..."
-run_script_with_spinner "steps/4-add-user.sh"
-echo "Enabling AUR with YAY..."
+echo -e "${YELLOW}Adding users...${NC}${NEWLINE}"
+
+# Create user and grant sudo privileges         #
+read -p "Enter the username to create: " username
+useradd -m -G wheel,users -s /bin/bash $username
+passwd $username
+# --------------------------------------------- #
+
+echo -e "${NEWLINE}"
+echo -e "${YELLOW}Enabling AUR with YAY...${NC}${NEWLINE}"
 run_script_with_spinner "steps/5-enable-yay.sh"
-echo "Installing GPU drivers..."
+echo -e "${YELLOW}Installing GPU drivers...${NC}${NEWLINE}"
 run_script_with_spinner "steps/6-gpu-drivers.sh"
-echo "Installing Flatpak..."
+echo -e "${YELLOW}Installing Flatpak...${NC}${NEWLINE}"
 run_script_with_spinner "steps/7-flatpak.sh"
-echo "Installing fonts..."
+echo -e "${YELLOW}Installing fonts...${NC}${NEWLINE}"
 run_script_with_spinner "steps/8-fonts.sh"
 
-echo "Post-installation complete!"
+echo -e "${GREEN}Post-installation complete!${NC}${NEWLINE}"
