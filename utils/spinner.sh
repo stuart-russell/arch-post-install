@@ -1,13 +1,14 @@
 #!/bin/bash
 
-# spinner function
+source "colour.sh"
+
 spinner() {
     local pid=$1
     local delay=0.1
     local spinstr='|/-\'
     while kill -0 $pid 2>/dev/null; do
         local temp=${spinstr#?}
-        printf " [%c]  Executing..." "$spinstr"
+        printf " ${YELLOW}[%c]${NC}  ${BLUE}Executing...${NC}" "$spinstr"
         spinstr=$temp${spinstr%"$temp"}
         sleep $delay
         printf "\r"
@@ -15,7 +16,6 @@ spinner() {
     printf "    \r"
 }
 
-# run_script_with_spinner <script_file>
 run_script_with_spinner() {
     local script_file="$1"
     bash "$script_file" > /dev/null 2>&1 &
@@ -24,11 +24,8 @@ run_script_with_spinner() {
     wait $script_pid
     local status=$?
     if [ $status -eq 0 ]; then
-        echo "Done."
+        echo -e "${GREEN}Done.${NC}"
     else
-        echo "Failed (exit code $status)."
+        echo -e "${RED}Failed (exit code $status).${NC}"
     fi
 }
-
-# Example usage:
-# run_script_with_spinner "./yourscript.sh"

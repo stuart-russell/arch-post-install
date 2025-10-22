@@ -1,5 +1,6 @@
 #!/bin/sh
 
 # Enable Multilib repositories
-sed -i 's/^#\[multilib\]/[multilib]/' /etc/pacman.conf
-sed -i '/\[multilib\]/,/Include/ s/^#//' /etc/pacman.conf
+echo '' >> /etc/pacman.conf
+echo '[multilib]' >> /etc/pacman.conf
+echo 'Include = /etc/pacman.d/mirrorlist' >> /etc/pacman.conf

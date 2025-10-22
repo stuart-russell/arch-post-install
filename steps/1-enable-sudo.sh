@@ -1,4 +1,6 @@
 #!/bin/sh
 
 # Configure sudo permissions
-sed -i 's/^# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
+echo "" >> /etc/sudoers
+echo "## Enabled sudo privileges for users in the wheel group" >> /etc/sudoers
+echo "%wheel ALL=(ALL:ALL) ALL" >> /etc/sudoers
