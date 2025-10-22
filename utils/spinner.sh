@@ -18,14 +18,22 @@ spinner() {
 
 run_script_with_spinner() {
     local script_file="$1"
+    local error_log="error.log"
+
+    # Trap ERR to log errors
+    trap 'echo "Error occurred in $script_file at line $LINENO" >> "$error_log"' ERR
+
     bash "$script_file" > /dev/null 2>&1 &
     local script_pid=$!
     spinner $script_pid
     wait $script_pid
     local status=$?
+    trap - ERR  # Remove trap after script finishes
+
     if [ $status -eq 0 ]; then
         echo -e "${GREEN}Done.${NC}"
     else
         echo -e "${RED}Failed (exit code $status).${NC}"
+        echo "Script $script_file failed with exit code $status" >> "$error_log"
     fi
 }
