@@ -18,12 +18,13 @@ spinner() {
 
 run_script_with_spinner() {
     local script_file="$1"
+    local username="$2"
     local error_log="error.log"
 
     # Trap ERR to log errors
     trap 'echo "Error occurred in $script_file at line $LINENO" >> "$error_log"' ERR
 
-    bash "$script_file" > /dev/null 2>&1 &
+    USERNAME="$username" bash "$script_file" > /dev/null 2>&1 &
     local script_pid=$!
     spinner $script_pid
     wait $script_pid
