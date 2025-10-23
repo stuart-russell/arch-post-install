@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source utils/colour.sh
+source ./utils/text.sh
 
 spinner() {
     local pid=$1
