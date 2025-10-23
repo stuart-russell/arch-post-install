@@ -9,4 +9,4 @@ pacman -S reflector rsync --noconfirm
 reflector --country 'United Kingfom' --latest 10 --sort rate --fastest 5 --save /etc/pacman.d/mirrorlist
 
 # Install GuiMan
-sudo -u $USERNAME yay -S guiman --noconfirm
+sudo -u $1 yay -S guiman --noconfirm
