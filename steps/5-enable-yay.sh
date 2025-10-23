@@ -1,7 +1,5 @@
 #!/bin/sh
 
-local user="$1"
-
 # Clone yay from AUR and install
 install_yay() {
     git clone https://aur.archlinux.org/yay.git /tmp/yay
@@ -11,4 +9,4 @@ install_yay() {
     rm -rf /tmp/yay
 }
 
-sudo -u "$user" bash -c "$(declare -f install_yay); install_yay"
+sudo -u "$1" bash -c "$(declare -f install_yay); install_yay"
