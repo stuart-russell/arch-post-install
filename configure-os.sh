@@ -1,11 +1,15 @@
 #!/bin/bash
 
-# Update Mirrorlist and Install base packages
-sudo pacman -S flatpak reflector rsync sudo base-devel git curl wget zip unzip nano vim man net-tools dnsutils noto-fonts noto-fonts-extra ttf-bitstream-vera ttf-dejavu ttf-droid ttf-fira-mono ttf-liberation ttf-opensans ttf-roboto --noconfirm
-reflector --country 'United Kingdom' --latest 10 --sort rate --fastest 5 --save /etc/pacman.d/mirrorlist
+install_system_packages() {
+    # Update Mirrorlist and Install base packages
+    sudo pacman -S flatpak reflector rsync sudo base-devel git curl wget zip unzip nano vim man net-tools dnsutils noto-fonts noto-fonts-extra ttf-bitstream-vera ttf-dejavu ttf-droid ttf-fira-mono ttf-liberation ttf-opensans ttf-roboto --noconfirm
+    # Update system packages
+    sudo pacman -Syu --noconfirm
+}
 
-# Update system packages
-sudo pacman -Syu --noconfirm
+sudo install_system_packages
+
+reflector --country 'United Kingdom' --latest 10 --sort rate --fastest 5 --save /etc/pacman.d/mirrorlist
 
 # Enable Multilib repositories
 echo '' >> /etc/pacman.conf
@@ -29,6 +33,12 @@ fi
 # Configure Flatpak
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
-# Enable TRIM for SSDs
-systemctl enable fstrim.timer
-systemctl start fstrim.timer
+# Enable and start services
+enable_services() {
+    systemctl enable fstrim.timer
+    systemctl start fstrim.timer
+    systemctl enable sddm.service
+    systemctl start sddm.service
+}
+
+sudo enable_services
