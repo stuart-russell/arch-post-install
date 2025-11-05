@@ -1,11 +1,7 @@
 #!/bin/bash
 
-install_system_packages() {
-    # Update Mirrorlist and Install base packages
-    sudo pacman -S flatpak reflector rsync sudo base-devel git curl wget zip unzip nano vim sddm man net-tools dnsutils noto-fonts noto-fonts-extra ttf-bitstream-vera ttf-dejavu ttf-droid ttf-fira-mono ttf-liberation ttf-opensans ttf-roboto --noconfirm
-    # Update system packages
-    sudo pacman -Syu --noconfirm
-}
+source ./sudo-funcs/package-install.sh
+source ./sudo-funcs/service-enable.sh
 
 sudo install_system_packages
 
@@ -34,11 +30,4 @@ fi
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 # Enable and start services
-enable_services() {
-    systemctl enable fstrim.timer
-    systemctl start fstrim.timer
-    systemctl enable sddm.service
-    systemctl start sddm.service
-}
-
 sudo enable_services
