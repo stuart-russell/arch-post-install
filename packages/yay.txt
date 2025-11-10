@@ -1,0 +1,5 @@
+mangowc-git
+helium-browser-bin
+visual-studio-code-bin
+quickshell
+millennium
